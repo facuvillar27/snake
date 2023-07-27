@@ -16,6 +16,7 @@ var snakeBody = [];
 var foodX;
 var foodY;
 
+var score = 1;
 var gameOver = false;
 
 window.onload = function () {
@@ -28,7 +29,14 @@ window.onload = function () {
 	placeFood();
 	document.addEventListener("keyup", changeDirection); //for movements
 	// Set snake speed
-	setInterval(update, 1000 / 10);
+    if (snakeBody.length < 10) {
+        setInterval(update, 1000 / 10);
+    } else if (snakeBody.length < 20) {
+        setInterval(update, 1000 / 50);
+    } else {
+        setInterval(update, 1000 / 100);
+    }
+    console.log(snakeBody.length)
 }
 
 function update() {
@@ -47,6 +55,12 @@ function update() {
 	if (snakeX == foodX && snakeY == foodY) {
 		snakeBody.push([foodX, foodY]);
 		placeFood();
+        console.log(snakeBody.length)
+
+        // Incrementar el puntaje
+        score++;
+        // Mostrar el puntaje en pantalla
+        document.getElementById("score").innerText = "Score: " + score;
 	}
 
 	// body of snake will grow
@@ -61,9 +75,9 @@ function update() {
 	context.fillStyle = "white";
 	snakeX += speedX * blockSize; //updating Snake position in X coordinate.
 	snakeY += speedY * blockSize; //updating Snake position in Y coordinate.
-	context.fillRect(snakeX, snakeY, blockSize, blockSize);
+	context.fillRect(snakeX + 2, snakeY + 2, blockSize - 4, blockSize - 4);
 	for (let i = 0; i < snakeBody.length; i++) {
-		context.fillRect(snakeBody[i][0], snakeBody[i][1], blockSize, blockSize);
+		context.fillRect(snakeBody[i][0] + 2, snakeBody[i][1] + 2, blockSize - 4, blockSize - 4);
 	}
 
 	if (snakeX < 0
