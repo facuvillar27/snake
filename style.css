@@ -1,0 +1,38 @@
+/* Write CSS Here */
+body {
+	text-align: center;
+    margin: 0px;
+    padding: 0px;
+    background-color: blanchedalmond;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    padding: 30px; 
+    margin-bottom: 0px;
+}
+.geeks {
+	font-size: 40px;
+	font-weight: bold;
+	color: green;
+}
+
+.box {
+    width: 90%;
+    height: 90%px;
+    border-radius: 20px;
+    background-color: aqua;
+    padding: 30px;
+}
+
+h1, h2 {
+    margin-top: 0px;
+    padding-top: 0px;
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    margin: 0px;
+}
