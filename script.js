@@ -27,7 +27,7 @@ window.onload = function () {
 	context = board.getContext("2d");
 
 	placeFood();
-	document.addEventListener("keyup", changeDirection); //for movements
+	document.addEventListener("keydown", changeDirection); //for movements
 	// Set snake speed
     if (snakeBody.length < 10) {
         setInterval(update, 1000 / 10);
@@ -87,7 +87,7 @@ function update() {
 		
 		// Out of bound condition
 		gameOver = true;
-		alert("Game Over");
+		alert("Game Over! Your score is " + score);
 	}
 
 	for (let i = 0; i < snakeBody.length; i++) {
@@ -95,7 +95,7 @@ function update() {
 			
 			// Snake eats own body
 			gameOver = true;
-			alert("Game Over");
+			alert("Game Over! Your score is " + score);
 		}
 	}
 }
@@ -103,25 +103,38 @@ function update() {
 // Movement of the Snake - We are using addEventListener
 function changeDirection(e) {
 	if (e.code == "ArrowUp" && speedY != 1) {
-		// If up arrow key pressed with this condition...
-		// snake will not move in the opposite direction
+		// Si se presiona la flecha hacia arriba y la serpiente no se mueve hacia abajo
 		speedX = 0;
 		speedY = -1;
 	}
 	else if (e.code == "ArrowDown" && speedY != -1) {
-		//If down arrow key pressed
+		// Si se presiona la flecha hacia abajo y la serpiente no se mueve hacia arriba
 		speedX = 0;
 		speedY = 1;
 	}
 	else if (e.code == "ArrowLeft" && speedX != 1) {
-		//If left arrow key pressed
+		// Si se presiona la flecha hacia la izquierda y la serpiente no se mueve hacia la derecha
 		speedX = -1;
 		speedY = 0;
 	}
 	else if (e.code == "ArrowRight" && speedX != -1) {
-		//If Right arrow key pressed
+		// Si se presiona la flecha hacia la derecha y la serpiente no se mueve hacia la izquierda
 		speedX = 1;
 		speedY = 0;
+	}
+	else if (e.type === "touchstart") {
+		// Para dispositivos táctiles, detectar el movimiento del dedo y ajustar la dirección de la serpiente
+		const touchX = e.touches[0].clientX;
+		const touchY = e.touches[0].clientY;
+		const deltaX = touchX - snakeX;
+		const deltaY = touchY - snakeY;
+		if (Math.abs(deltaX) > Math.abs(deltaY)) {
+			speedX = deltaX > 0 ? 1 : -1;
+			speedY = 0;
+		} else {
+			speedX = 0;
+			speedY = deltaY > 0 ? 1 : -1;
+		}
 	}
 }
 
